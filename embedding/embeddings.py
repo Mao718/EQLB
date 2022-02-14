@@ -8,7 +8,7 @@ import tqdm
 from model.syncmap import SyncMap
 from preprocess.preprocess import *
 
-def work_package_for_mutiprocess(img:"(width,width,color)",repeat_time=10):
+def work_package_for_mutiprocess(img:"(width,width,color)",repeat_time=1):
     seq=fig2seq(img)
     model=SyncMap(seq.shape[1], 3)
     for i in range(repeat_time):
@@ -31,5 +31,9 @@ if __name__ == '__main__':
     a=tf.squeeze(a)
     rep=mutiprocess_embedding(a)
     
+    
+    seq=fig2seq(a[0])
+    model=SyncMap(seq.shape[1], 3)
+    test_rep=model.input(seq)
     
     
