@@ -1,2 +1,5 @@
 bin
 lib
+*.pyc
+include
+__pycache__
