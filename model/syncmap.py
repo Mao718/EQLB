@@ -25,6 +25,7 @@ class SyncMap:
         self.dimensions= dimensions
         self.input_size= input_size
         #syncmap= np.zeros((input_size,dimensions))
+        np.random.seed(50)
         self.syncmap= np.random.rand(input_size,dimensions)
         self.synapses_matrix = np.zeros([input_size, input_size])
         self.adaptation_rate= adaptation_rate
@@ -46,15 +47,15 @@ class SyncMap:
             self.name = "SyncMap with Noise"
         
     def inputGeneral(self, x):
-        #plus= x > 0.1
-        #minus = ~ plus
+        plus= x > 0.1
+        minus = ~ plus
 
         sequence_size = x.shape[0]
         #print(sequence_size, "asfasdfasdfasd")
         for i in range(sequence_size):
             
-            vplus= x[i,:]>0.1
-            vminus= ~ vplus
+            vplus= plus[i,:]
+            vminus= minus[i,:]
             plus_mass = vplus.sum()
             minus_mass = vminus.sum()
 
@@ -86,11 +87,11 @@ class SyncMap:
             update_minus= vminus[:,np.newaxis]*((center_minus -self.syncmap)/dist_minus)# + (self.syncmap - center_plus)/dist_plus)
             
             
-            noise = np.random.normal(0, 0.01, self.syncmap.shape)
+            #noise = np.random.normal(0, 0.01, self.syncmap.shape)
             
             #self.syncmap= self.space_size*self.syncmap/maximum
             update= update_plus - update_minus
-            self.syncmap+= self.adaptation_rate*update + noise*self.noise_b
+            self.syncmap+= self.adaptation_rate*update #+ noise*self.noise_b
             # self.noise_b *= 0.99
         
             maximum=self.syncmap.max()
