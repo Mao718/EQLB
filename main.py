@@ -7,14 +7,23 @@ import numpy as np
 gpu_devices = tf.config.experimental.list_physical_devices('GPU')
 for device in gpu_devices:
     tf.config.experimental.set_memory_growth(device, True)
+data='cifar10'
+#load data mnist----------------------------
+if data=='mnist':
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+    x_train, x_test = x_train[..., np.newaxis]/255.0, x_test[..., np.newaxis]/255.0
 
-#load data
-(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-x_train, x_test = x_train[..., np.newaxis]/255.0, x_test[..., np.newaxis]/255.0
-
-
+if data=='cifar10':
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+    x_train, x_test = x_train[..., np.newaxis]/255.0, x_test[..., np.newaxis]/255.0
+    x_train=np.squeeze(x_train)
+    x_test=np.squeeze(x_test)
+    y_train=np.squeeze(y_train)
+    y_test=np.squeeze(y_test)
 #x_use = x_train[:5000]
 #y_use = y_train[:5000]
+
+
 
 #conv1
 #------training set
