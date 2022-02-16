@@ -4,16 +4,9 @@ sys.path.append("..")
 from multiprocessing import Pool
 import multiprocessing
 import tqdm
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
+
 from model.syncmap import SyncMap
 from preprocess.preprocess import *
-
-def evaluate(train_representation, test_representation, train_label, test_label, neighbors=5):
-    classifier = KNeighborsClassifier(n_neighbors=neighbors)
-    classifier.fit(train_representation, train_label)
-    y_pred = classifier.predict(test_representation)
-    print('accuracy =', accuracy_score(test_label, y_pred))
 
 def work_package_for_mutiprocess(img:"(width,width,color)",repeat_time=10):
     
@@ -31,7 +24,7 @@ def mutiprocess_embedding(img:"(batch,width,width,color)"):
                            , total=img.shape[0]))
     return r
 
-
+#------------------testing only
 def work_package_for_mutiprocess_test(seq:"(time variable)",repeat_time=10):
     model=SyncMap(seq.shape[1], 2)
     for i in range(repeat_time):
