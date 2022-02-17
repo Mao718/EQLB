@@ -1,13 +1,16 @@
 from preprocess.preprocess import *
 from embedding.embeddings import *
 from evaluation.evaluate import evaluate
+from plot.plots import embedding_plot
 import tensorflow as tf
 import numpy as np
 
 gpu_devices = tf.config.experimental.list_physical_devices('GPU')
 for device in gpu_devices:
     tf.config.experimental.set_memory_growth(device, True)
+    
 data='cifar10'
+plt_logic=True
 #load data mnist----------------------------
 if data=='mnist':
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
@@ -39,6 +42,7 @@ rep_test=np.array(rep_test)
 
 for i in range(10):
     evaluate(rep_train.reshape(
-        60000, -1), rep_test.reshape(10000, -1), y_train, y_test, i+1)
-    
+        50000, -1), rep_test.reshape(10000, -1), y_train, y_test, i+1)
+if plt_logic:
+    embedding_plot(rep_train,y_train)
         

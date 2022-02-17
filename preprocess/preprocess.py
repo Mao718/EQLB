@@ -4,7 +4,7 @@ gpu_devices = tf.config.experimental.list_physical_devices('GPU')
 for device in gpu_devices:
     tf.config.experimental.set_memory_growth(device, True)
     
-def average_conv_layer(imgs:'(batch,width,width,colors)',width:int =4,stride=2,opt='flatten'):
+def average_conv_layer(imgs:'(batch,width,width,colors)',width:int =6,stride=2,opt='flatten'):
     if opt=='flatten':
         number_of_pixel=width*width*imgs.shape[3]
         conv_kernal=np.ones((width,width,imgs.shape[3],1))
