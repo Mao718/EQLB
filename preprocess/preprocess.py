@@ -30,6 +30,17 @@ def fig2seq(img:'(width,width)',frame_size=2
 
 
     return img_seq.reshape(img_seq.shape[0],img_seq.shape[1]*img_seq.shape[2])
+
+def slice_img(img:'(width,width)',frame_size=8
+            ,stride=(4,4))->"(time step,variables)":
+    wide=int((img.shape[0]-(frame_size-stride[0]))/stride[0]) #k
+    hight=int((img.shape[1]-(frame_size-stride[1]))/stride[1]) #k
+    img_list=[]
+    for i in range(wide):
+        for j in range(hight):
+            img_list.append(img[stride[0]*i:stride[0]*i+frame_size,stride[0]*j:stride[0]*j+frame_size])
+    return np.array(img_list)    
 if __name__ == '__main__':
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-    print(average_conv_layer(x_train/255).shape)
+    test=slice_img(x_train[0])
+    import matplotlib.pyplot as plt

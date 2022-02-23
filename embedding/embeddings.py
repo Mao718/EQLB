@@ -8,11 +8,11 @@ from model.sigma import Sigma
 from model.syncmap import SyncMap
 from preprocess.preprocess import *
 
-def work_package_for_mutiprocess(img:"(width,width,color)",repeat_time=100):
+def work_package_for_mutiprocess(img:"(width,width,color)",repeat_time=10):
     
     seq=fig2seq(img)
     #print(seq.shape)
-    model=Sigma(seq.shape[1], 10)
+    model=SyncMap(seq.shape[1], 2)
     for i in range(repeat_time):
         rep=model.input(seq)
     #rep=model.syncmap
