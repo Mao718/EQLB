@@ -24,6 +24,27 @@ def mutiprocess_embedding(img:"(batch,width,width,color)"):
                            , total=img.shape[0]))
     return r
 
+def work_package_for_mutiprocess_3D(img:"(width,width,color)",repeat_time=10):
+    
+    seq=fig2seq_3D(img)
+    #print(seq.shape)
+    model=SyncMap(seq.shape[1], 2)
+    for i in range(repeat_time):
+        rep=model.input(seq)
+    #rep=model.syncmap
+    return rep
+
+def mutiprocess_embedding_3D(img:"(batch,width,width,color)"):
+    with Pool(multiprocessing.cpu_count()) as p:
+        r = list(tqdm.tqdm(p.imap(work_package_for_mutiprocess_3D, img)
+                           , total=img.shape[0]))
+    return r
+
+
+
+
+
+
 #------------------testing only
 def work_package_for_mutiprocess_test(seq:"(time variable)",repeat_time=10):
     model=SyncMap(seq.shape[1], 2)

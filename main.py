@@ -34,6 +34,10 @@ if data=='cifar10':
 #conv=tf.squeeze(conv)
 #conv_test=average_conv_layer(x_test)
 #conv_test=tf.squeeze(conv_test)
+#rep_train=mutiprocess_embedding(conv_train)
+#rep_test=mutiprocess_embedding(conv_test)
+#rep_train=np.array(rep_train)
+#rep_test=np.array(rep_test)
 ######--------------------------------------
 
 ######version 2 slice----------------------------
@@ -48,20 +52,19 @@ conv_train=np.array(conv_train)
 conv_test=np.array(conv_test)
 
 conv_train=conv_train.reshape(50000*49,8,8,3)
-conv_train=conv_train.mean(axis=3)
+#conv_train=conv_train.mean(axis=3)
 
 conv_test=conv_test.reshape(10000*49,8,8,3)
-conv_test=conv_test.mean(axis=3)
-######---------------------------------------
+rep_test=mutiprocess_embedding_3D(conv_test)
+rep_train=mutiprocess_embedding_3D(conv_train)
+#conv_test=conv_test.mean(axis=3)
 
-rep_train=mutiprocess_embedding(conv_train)
 rep_train=np.array(rep_train)
 rep_train=rep_train.reshape(50000,49,-1)
 
-rep_test=mutiprocess_embedding(conv_test)
 rep_test=np.array(rep_test)
 rep_test=rep_test.reshape(10000,49,-1)
-
+######---------------------------------------
 for i in range(20):
     evaluate(rep_train.reshape(
         50000, -1), rep_test.reshape(10000, -1), y_train, y_test, i+1)
