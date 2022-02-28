@@ -67,8 +67,8 @@ if data=='cifar10':
 #rep_test=rep_test.reshape(10000,49,-1)
 ######---------------------------------------
 ######version3 all image    ---------------
-rep_train=mutiprocess_embedding_3D(conv_train)
-rep_test=mutiprocess_embedding_3D(conv_test)
+rep_train=mutiprocess_embedding_3D(x_train)
+rep_test=mutiprocess_embedding_3D(x_test)
 rep_test=np.array(rep_test)
 rep_train=np.array(rep_train)
 for i in range(20):
