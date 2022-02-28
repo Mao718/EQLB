@@ -31,7 +31,7 @@ def fig2seq(img:'(width,width)',frame_size=2
 
     return img_seq.reshape(img_seq.shape[0],img_seq.shape[1]*img_seq.shape[2])
 
-def slice_img(img:'(width,width)',frame_size=8
+def slice_img(img:'(width,width,color)',frame_size=8
             ,stride=(4,4))->"(time step,variables)":
     wide=int((img.shape[0]-(frame_size-stride[0]))/stride[0]) #k
     hight=int((img.shape[1]-(frame_size-stride[1]))/stride[1]) #k
@@ -40,7 +40,18 @@ def slice_img(img:'(width,width)',frame_size=8
         for j in range(hight):
             img_list.append(img[stride[0]*i:stride[0]*i+frame_size,stride[0]*j:stride[0]*j+frame_size])
     return np.array(img_list)
-def fig2seq_3D(img:'(width,width)',frame_size=2
+def slice_img3D(img:'(width,width,color)',frame_size=8
+            ,stride=(4,4))->"(time step,variables)":
+    wide=int((img.shape[0]-(frame_size-stride[0]))/stride[0]) #k
+    hight=int((img.shape[1]-(frame_size-stride[1]))/stride[1]) #k
+    slice_img=np.zeros((wide,hight,img.shape[2]))
+    
+    for i in range(wide):
+        for j in range(hight):
+            #print(np.mean(img[stride[0]*i:stride[0]*i+frame_size,stride[0]*j:stride[0]*j+frame_size],axis=2).shape)
+            slice_img[i,j]=img[stride[0]*i:stride[0]*i+frame_size,stride[0]*j:stride[0]*j+frame_size].mean(axis=0).mean(axis=0)
+    return slice_img
+def fig2seq_3D(img:'(width,width,hight)',frame_size=2
             ,stride=(1,1),decay_rate=0.9,switch=10)->"(time step,variables)":
 
     wide=int((img.shape[0]-(frame_size-stride[0]))/stride[0]) #k
@@ -67,8 +78,8 @@ def fig2seq_3D(img:'(width,width)',frame_size=2
 if __name__ == '__main__':
     import matplotlib.pyplot as plt
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-    test,test_use=fig2seq_3D(x_train[0]/255.)
-    
+    #test,test_use=fig2seq_3D(x_train[0]/255.)
+    test=slice_img3D(x_train[0]/255.)
     import matplotlib.animation as animation
     fig=plt.figure()
     ims=[]

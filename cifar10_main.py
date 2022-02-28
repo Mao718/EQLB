@@ -42,30 +42,35 @@ if data=='cifar10':
 
 ######version 2 slice----------------------------
 
-conv_train=[]
-conv_test=[]
-for i in range(x_train.shape[0]):
-    conv_train.append(slice_img(x_train[i]))
-for i in range(x_test.shape[0]):
-    conv_test.append(slice_img(x_test[i]))
-conv_train=np.array(conv_train)
-conv_test=np.array(conv_test)
+#conv_train=[]
+#conv_test=[]
+#for i in range(x_train.shape[0]):
+#    conv_train.append(slice_img(x_train[i]))
+#for i in range(x_test.shape[0]):
+#    conv_test.append(slice_img(x_test[i]))
+#conv_train=np.array(conv_train)
+#conv_test=np.array(conv_test)
 
-conv_train=conv_train.reshape(50000*49,8,8,3)
-#conv_train=conv_train.mean(axis=3)
+#conv_train=conv_train.reshape(50000*49,8,8,3)
 
-conv_test=conv_test.reshape(10000*49,8,8,3)
 
+#conv_test=conv_test.reshape(10000*49,8,8,3)
+
+#rep_train=mutiprocess_embedding_3D(conv_train)
+#rep_test=mutiprocess_embedding_3D(conv_test)
+
+
+#rep_train=np.array(rep_train)
+#rep_train=rep_train.reshape(50000,49,-1)
+
+#rep_test=np.array(rep_test)
+#rep_test=rep_test.reshape(10000,49,-1)
+######---------------------------------------
+######version3 all image    ---------------
 rep_train=mutiprocess_embedding_3D(conv_train)
 rep_test=mutiprocess_embedding_3D(conv_test)
-#conv_test=conv_test.mean(axis=3)
-
-rep_train=np.array(rep_train)
-rep_train=rep_train.reshape(50000,49,-1)
-
 rep_test=np.array(rep_test)
-rep_test=rep_test.reshape(10000,49,-1)
-######---------------------------------------
+rep_train=np.array(rep_train)
 for i in range(20):
     evaluate(rep_train.reshape(
         50000, -1), rep_test.reshape(10000, -1), y_train, y_test, i+1)

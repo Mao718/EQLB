@@ -25,7 +25,7 @@ def mutiprocess_embedding(img:"(batch,width,width,color)"):
     return r
 
 def work_package_for_mutiprocess_3D(img:"(width,width,color)",repeat_time=10):
-    
+    img=slice_img3D(img)
     seq=fig2seq_3D(img)
     #print(seq.shape)
     model=SyncMap(seq.shape[1], 2)
